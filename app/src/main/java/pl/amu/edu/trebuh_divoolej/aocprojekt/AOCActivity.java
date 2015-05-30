@@ -1,17 +1,69 @@
 package pl.amu.edu.trebuh_divoolej.aocprojekt;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import org.rajawali3d.vuforia.RajawaliVuforiaActivity;
 
 
-public class AOCActivity extends ActionBarActivity {
+public class AOCActivity extends RajawaliVuforiaActivity {
+    public static final String TAG = "AOCActivity";
+
+    private AOCRenderer renderer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aoc);
+//        useCloudRecognition(true);
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setGravity(Gravity.CENTER);
+
+        // logo stuff
+
+        addContentView(linearLayout, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
+        startVuforia();
+    }
+
+    @Override
+    protected void setupTracker() {
+        int result = initTracker(TRACKER_TYPE_MARKER);
+        if (result == 1) {
+            result = initTracker(TRACKER_TYPE_IMAGE);
+            if (result == 1)
+                super.setupTracker();
+            else
+                Log.e(TAG, "Couldn't initialize image tracker");
+        }
+        else
+            Log.e(TAG, "Couldn't initialize marker tracker");
+    }
+
+    @Override
+    protected void initApplicationAR() {
+        super.initApplicationAR();
+
+        createFrameMarker(420, "MarkerUAM", 50, 50);
+
+        createImageMarker("aocImages.xml");
+    }
+
+    @Override
+    protected void initRajawali() {
+        renderer = new AOCRenderer(this);
+        setRenderer(renderer);
+
+        super.initRajawali();
     }
 
     @Override
