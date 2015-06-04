@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.amu.edu.trebuh_divoolej.aocprojekt" >
+    package="pl.amu.edu.trebuh_divoolej.aocprojekt"
+    android:versionCode="1"
+    android:versionName="0.5"
+    >
 
     <uses-feature android:glEsVersion="0x00020000" />
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="ANDROID.PERMISSION.CAMERA"/>
-    <!--<uses-permission android:name="ANDROID.PERMISSION.READ_PHONE_STATE"/>-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +21,7 @@
         android:hardwareAccelerated="false"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
-            android:name=".AOCActivity"
+            android:name="pl.amu.edu.trebuh_divoolej.aocprojekt.AOCActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="landscape"
             android:label="@string/app_name" >

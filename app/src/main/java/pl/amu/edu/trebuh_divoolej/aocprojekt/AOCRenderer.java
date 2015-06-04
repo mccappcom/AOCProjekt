@@ -17,9 +17,11 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by hubert on 31.05.15.
  */
 public class AOCRenderer extends RajawaliVuforiaRenderer {
+    public static final String TAG = "AOCRenderer";
+
     private AOCActivity activity;
     private DirectionalLight light;
-    private Object3D nesController;
+    private Object3D cubeObject;
 
     public AOCRenderer(Context context) {
         super(context);
@@ -28,15 +30,20 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
     @Override
     protected void foundFrameMarker(int id, Vector3 vector3, Quaternion quaternion) {
-        if(id == 420) {
-            nesController.setVisible(true);
-            nesController.setPosition(vector3);
-            nesController.setOrientation(quaternion);
+        // Ta metoda obsługuje frame markery - jest ich 512, png spakowane gdzieś w vuforia sdk.
+        // Ten niżej ma id 420, ale tutaj odwołujesz się do nich wg. kolejności dodawania do AOCActivity
+        // (w initApplicationAr() )
+        if(id == 0) {
+            cubeObject.setVisible(true);
+            cubeObject.setPosition(vector3);
+            cubeObject.setOrientation(quaternion);
         }
     }
 
     @Override
     protected void foundImageMarker(String s, Vector3 vector3, Quaternion quaternion) {
+        // Ta metoda obsługuje obrazek, w bazie danych aocImages.dat jest tylko zdjęcie WMI.
+        // Bazy tworzy się na stronie https://developer.vuforia.com/target-manager
     }
 
     @Override
@@ -51,7 +58,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     }
 
     private void hideAllModels() {
-        nesController.setVisible(false);
+        if (cubeObject != null) cubeObject.setVisible(false);
     }
 
     @Override
@@ -63,15 +70,17 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         getCurrentScene().addLight(light);
 
         try {
-            // Load the NES controller model
-            // (by ozzlennon: http://www.blendswap.com/blends/view/78487)
+            // Load the Companion Cube model
+            // (by GamerFreaq: http://www.blendswap.com/blends/view/4587)
 
-            LoaderOBJ objParser = new LoaderOBJ(this, R.raw.nes);
+            LoaderOBJ objParser = new LoaderOBJ(this, R.raw.bike_obj);
             objParser.parse();
-            nesController.setScale(2);
 
-            getCurrentScene().addChild(nesController);
-            nesController.setVisible(false);
+            cubeObject = objParser.getParsedObject();
+            cubeObject.setScale(5);
+
+            getCurrentScene().addChild(cubeObject);
+            cubeObject.setVisible(false);
 
         } catch (ParsingException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package pl.amu.edu.trebuh_divoolej.aocprojekt;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,8 +14,6 @@ import org.rajawali3d.vuforia.RajawaliVuforiaActivity;
 public class AOCActivity extends RajawaliVuforiaActivity {
     public static final String TAG = "AOCActivity";
 
-    private AOCRenderer renderer;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +26,7 @@ public class AOCActivity extends RajawaliVuforiaActivity {
 
         // logo stuff
 
-        addContentView(linearLayout, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        addContentView(linearLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         startVuforia();
@@ -60,7 +57,7 @@ public class AOCActivity extends RajawaliVuforiaActivity {
 
     @Override
     protected void initRajawali() {
-        renderer = new AOCRenderer(this);
+        AOCRenderer renderer = new AOCRenderer(this);
         setRenderer(renderer);
 
         super.initRajawali();
