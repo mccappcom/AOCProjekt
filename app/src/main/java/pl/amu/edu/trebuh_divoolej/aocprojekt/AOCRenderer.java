@@ -36,7 +36,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         if(id == 0) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
-            wmiTextObject.setOrientation(orientation);
+            wmiTextObject.setOrientation(orientation.fromEuler(180, 180, 90));
         }
     }
 
