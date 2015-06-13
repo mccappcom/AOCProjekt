@@ -1,6 +1,7 @@
 package pl.amu.edu.trebuh_divoolej.aocprojekt;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.MotionEvent;
 
 import org.rajawali3d.Object3D;
@@ -92,17 +93,17 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     @Override
     protected void initScene() {
         light = new DirectionalLight(.1f, 0, -1.0f);
-        light.setColor(1.0f, 1.0f, 0.8f);
+        light.setColor(1.0f, 1.0f, 1.0f);
         light.setPower(1);
 
         Material material = new Material();
         try {
-            material.addTexture(new Texture("textura", R.drawable.textura));
+            material.addTexture(new Texture("textura", R.drawable.textura).);
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
-        plane = new Plane(24, 24, 1, 1);
-        plane.setScale(10);
+        plane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+        plane.setScale(2.6);
         plane.setMaterial(material);
 
         getCurrentScene().addChild(plane);
@@ -118,38 +119,6 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
             getCurrentScene().addChild(wmiTextObject);
             wmiTextObject.setVisible(false);
-
-//            Material wmiTextMaterial = new Material();
-//            wmiTextMaterial.addTexture(new Texture("wmi", R.drawable.wmi));
-//            wmiTextObject.setMaterial(wmiTextMaterial);
-
-            // Load the WMI logo texture.
-//            final LoaderOBJ wmiLogoParser = new LoaderOBJ(this, R.raw.wmi_tekstura_obj);
-//            wmiLogoParser.parse();
-//
-//            wmiLogoObject = wmiLogoParser.getParsedObject();
-//            wmiLogoObject.setScale(50);
-//
-//            Material wmiLogoMaterial = new Material();
-
-//            Plane plane = new Plane(50, 50, 1, 1);
-//            Bitmap bg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wmi);
-//            Material material = new Material();
-//            ATexture texture = new ATexture(ATexture.TextureType.DIFFUSE, )
-//            material.addTexture(mTextureManager.addTexture(bg));
-//            material.setDiffuseMethod(new DiffuseMethod.Lambert());
-
-//            plane.setMaterial(material);
-
-
-//            wmiLogoMaterial.addTexture(new Texture("wmiTexture", R.drawable.wmi));
-//            wmiLogoMaterial.enableLighting(true);
-//            wmiLogoMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
-//            wmiLogoMaterial.setColorInfluence(0);
-//
-//            wmiLogoObject.setMaterial(wmiLogoMaterial);
-//            getCurrentScene().addChild(wmiLogoObject);
-//            wmiLogoObject.setVisible(false);
 
         } catch (ParsingException e) {
             e.printStackTrace();
