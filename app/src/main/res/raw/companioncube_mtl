@@ -19,7 +19,7 @@ Ks 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 0
-map_Kd /home/hubert/Desktop/textures/metal_box_skin001.jpg
+map_Kd g:/Valve/Portal/Rendered images/metal_box_skin001.jpg
 
 newmtl Material.006
 Ns 96.078431
