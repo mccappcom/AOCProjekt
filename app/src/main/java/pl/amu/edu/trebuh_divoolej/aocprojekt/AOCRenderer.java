@@ -8,7 +8,8 @@ import org.rajawali3d.lights.DirectionalLight;
 import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
-import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.textures.ATexture;
+import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
@@ -26,7 +27,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private DirectionalLight light;
     private Object3D wmiTextObject;
     private Object3D wmiLogoObject;
-    private Sphere mSphere;
+    private Plane plane;
 
     public AOCRenderer(Context context) {
         super(context);
@@ -45,9 +46,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             wmiTextObject.setPosition(position);
             wmiTextObject.setOrientation(orientation);
         } else if (id == 1) {
-            wmiTextObject.setVisible(true);
-            wmiTextObject.setPosition(position);
-            wmiTextObject.setOrientation(orientation);
+            plane.setVisible(true);
+            plane.setPosition(position);
+            plane.setOrientation(orientation);
         } else if (id == 2) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
@@ -85,7 +86,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
     private void hideAllModels() {
         if (wmiTextObject != null) wmiTextObject.setVisible(false);
-        if (mSphere != null) mSphere.setVisible(false);
+        if (plane != null) plane.setVisible(false);
     }
 
     @Override
@@ -100,11 +101,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
-        mSphere = new Sphere(1, 24, 24);
-        mSphere.setScale(10);
-        mSphere.setMaterial(material);
+        plane = new Plane(24, 24, 1, 1);
+        plane.setScale(10);
+        plane.setMaterial(material);
 
-        getCurrentScene().addChild(mSphere);
+        getCurrentScene().addChild(plane);
         getCurrentScene().addLight(light);
 
         try {
@@ -118,7 +119,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             getCurrentScene().addChild(wmiTextObject);
             wmiTextObject.setVisible(false);
 
-            Material wmiTextMaterial = new Material();
+//            Material wmiTextMaterial = new Material();
 //            wmiTextMaterial.addTexture(new Texture("wmi", R.drawable.wmi));
 //            wmiTextObject.setMaterial(wmiTextMaterial);
 
@@ -131,14 +132,14 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 //
 //            Material wmiLogoMaterial = new Material();
 
-            Plane plane = new Plane(50, 50, 1, 1);
+//            Plane plane = new Plane(50, 50, 1, 1);
 //            Bitmap bg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wmi);
-            Material material = new Material();
+//            Material material = new Material();
 //            ATexture texture = new ATexture(ATexture.TextureType.DIFFUSE, )
 //            material.addTexture(mTextureManager.addTexture(bg));
-            material.setDiffuseMethod(new DiffuseMethod.Lambert());
+//            material.setDiffuseMethod(new DiffuseMethod.Lambert());
 
-            plane.setMaterial(material);
+//            plane.setMaterial(material);
 
 
 //            wmiLogoMaterial.addTexture(new Texture("wmiTexture", R.drawable.wmi));
