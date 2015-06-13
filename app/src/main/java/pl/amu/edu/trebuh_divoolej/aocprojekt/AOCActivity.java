@@ -50,7 +50,10 @@ public class AOCActivity extends RajawaliVuforiaActivity {
     protected void initApplicationAR() {
         super.initApplicationAR();
 
-        createFrameMarker(420, "MarkerUAM", 50, 50);
+        createFrameMarker(420, "MarkerUAM_420", 50, 50);
+        createFrameMarker(430, "MarkerUAM_430", 50, 50);
+        createFrameMarker(440, "MarkerUAM_440", 50, 50);
+        createFrameMarker(450, "MarkerUAM_450", 50, 50);
 
         createImageMarker("aocImages.xml");
     }

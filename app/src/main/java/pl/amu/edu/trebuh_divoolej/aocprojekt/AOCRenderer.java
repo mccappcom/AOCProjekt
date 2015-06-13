@@ -42,11 +42,24 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         // Ten niżej ma id 420, ale tutaj odwołujesz się do nich wg. kolejności dodawania do AOCActivity
         // (w initApplicationAr() )
 
-        if(id == 0) {
+        if (id == 0) {
+            wmiTextObject.setVisible(true);
+            wmiTextObject.setPosition(position);
+            wmiTextObject.setOrientation(orientation);
+        } else if (id == 1) {
+            wmiTextObject.setVisible(true);
+            wmiTextObject.setPosition(position);
+            wmiTextObject.setOrientation(orientation);
+        } else if (id == 2) {
+            wmiTextObject.setVisible(true);
+            wmiTextObject.setPosition(position);
+            wmiTextObject.setOrientation(orientation);
+        } else if (id == 3) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
             wmiTextObject.setOrientation(orientation);
         }
+
     }
 
     @Override
