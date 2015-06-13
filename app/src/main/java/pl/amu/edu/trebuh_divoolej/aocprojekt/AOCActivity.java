@@ -8,10 +8,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import org.rajawali3d.vuforia.RajawaliVuforiaActivity;
-
-
-public class AOCActivity extends RajawaliVuforiaActivity {
+public class AOCActivity extends VuforiaActivity {
     public static final String TAG = "AOCActivity";
 
     @Override

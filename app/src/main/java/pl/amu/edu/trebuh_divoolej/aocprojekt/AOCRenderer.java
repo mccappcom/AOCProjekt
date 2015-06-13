@@ -16,14 +16,10 @@ import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
-import org.rajawali3d.vuforia.RajawaliVuforiaRenderer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Created by hubert on 31.05.15.
- */
-public class AOCRenderer extends RajawaliVuforiaRenderer {
+public class AOCRenderer extends VuforiaRenderer {
     public static final String TAG = "AOCRenderer";
 
     private AOCActivity activity;
