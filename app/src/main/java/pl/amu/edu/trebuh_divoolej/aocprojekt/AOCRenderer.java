@@ -8,8 +8,10 @@ import org.rajawali3d.lights.DirectionalLight;
 import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
+import org.rajawali3d.materials.methods.DiffuseMethod;
 import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.materials.textures.AnimatedGIFTexture;
+import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
@@ -26,7 +28,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private AOCActivity activity;
     private DirectionalLight light;
     private Object3D wmiTextObject;
-    private Object3D wmiLogoObject;
+    private Object3D bulbasaurObject;
     private Plane plane;
     private AnimatedGIFTexture nyanCatTexture;
 
@@ -55,9 +57,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
                 e.printStackTrace();
             }
         } else if (id == 2) {
-            wmiTextObject.setVisible(true);
-            wmiTextObject.setPosition(position);
-            wmiTextObject.setOrientation(orientation);
+            bulbasaurObject.setVisible(true);
+            bulbasaurObject.setPosition(position);
+            bulbasaurObject.setOrientation(orientation);
         } else if (id == 3) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
@@ -72,9 +74,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         // Bazy tworzy się na stronie https://developer.vuforia.com/target-manager
 
         if (s.equals("kampus")) {
-            wmiLogoObject.setVisible(true);
-            wmiLogoObject.setPosition(position);
-            wmiLogoObject.setOrientation(orientation);
+            bulbasaurObject.setVisible(true);
+            bulbasaurObject.setPosition(position);
+            bulbasaurObject.setOrientation(orientation);
         }
     }
 
@@ -92,6 +94,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private void hideAllModels() {
         if (wmiTextObject != null) wmiTextObject.setVisible(false);
         if (plane != null) plane.setVisible(false);
+        if (bulbasaurObject != null) bulbasaurObject.setVisible(false);
     }
 
     @Override
@@ -100,17 +103,17 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         light.setColor(1.0f, 1.0f, 1.0f);
         light.setPower(1);
 
-        Material material = new Material();
-        nyanCatTexture = new AnimatedGIFTexture("textura", R.drawable.textura);
+        Material nyanCatMaterial = new Material();
+        nyanCatTexture = new AnimatedGIFTexture("textura", R.drawable.nyan);
         try {
-            material.addTexture(nyanCatTexture);
-            material.setColorInfluence(0);
+            nyanCatMaterial.addTexture(nyanCatTexture);
+            nyanCatMaterial.setColorInfluence(0);
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
         plane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
         plane.setScale(2.6);
-        plane.setMaterial(material);
+        plane.setMaterial(nyanCatMaterial);
 
         getCurrentScene().addChild(plane);
         getCurrentScene().addLight(light);
@@ -126,7 +129,24 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             getCurrentScene().addChild(wmiTextObject);
             wmiTextObject.setVisible(false);
 
-        } catch (ParsingException e) {
+            // Load the Bulbasaur:
+            final LoaderOBJ bulbaParser = new LoaderOBJ(this, R.raw.bulba_obj);
+            bulbaParser.parse();
+
+            bulbasaurObject = bulbaParser.getParsedObject();
+            bulbasaurObject.setScale(7);
+
+            Material bulbaMaterial = new Material();
+            bulbaMaterial.setColorInfluence(0);
+            bulbaMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
+            bulbaMaterial.addTexture(new Texture("bulbaTexture", R.drawable.dif_bulbasaur_01));
+
+            bulbasaurObject.setMaterial(bulbaMaterial);
+
+            getCurrentScene().addChild(bulbasaurObject);
+            bulbasaurObject.setVisible(false);
+
+        } catch (ParsingException | ATexture.TextureException e) {
             e.printStackTrace();
         }
 
