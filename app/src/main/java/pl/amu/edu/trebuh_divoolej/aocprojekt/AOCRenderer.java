@@ -19,9 +19,6 @@ import org.rajawali3d.vuforia.RajawaliVuforiaRenderer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- * Created by hubert on 31.05.15.
- */
 public class AOCRenderer extends RajawaliVuforiaRenderer {
     public static final String TAG = "AOCRenderer";
 
@@ -29,7 +26,8 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private DirectionalLight light;
     private Object3D wmiTextObject;
     private Object3D bulbasaurObject;
-    private Plane plane;
+    private Object3D companionCubeObject;
+    private Plane nyanCatPlane;
     private AnimatedGIFTexture nyanCatTexture;
 
     public AOCRenderer(Context context) {
@@ -48,9 +46,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             wmiTextObject.setPosition(position);
             wmiTextObject.setOrientation(orientation);
         } else if (id == 1) {
-            plane.setVisible(true);
-            plane.setPosition(position);
-            plane.setOrientation(orientation);
+            nyanCatPlane.setVisible(true);
+            nyanCatPlane.setPosition(position);
+            nyanCatPlane.setOrientation(orientation);
             try {
                 nyanCatTexture.update();
             } catch (ATexture.TextureException e) {
@@ -61,9 +59,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             bulbasaurObject.setPosition(position);
             bulbasaurObject.setOrientation(orientation);
         } else if (id == 3) {
-            wmiTextObject.setVisible(true);
-            wmiTextObject.setPosition(position);
-            wmiTextObject.setOrientation(orientation);
+            companionCubeObject.setVisible(true);
+            companionCubeObject.setPosition(position);
+            companionCubeObject.setOrientation(orientation);
         }
 
     }
@@ -74,6 +72,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         // Bazy tworzy się na stronie https://developer.vuforia.com/target-manager
 
         if (s.equals("kampus")) {
+            bulbasaurObject.setVisible(true);
+            bulbasaurObject.setPosition(position);
+            bulbasaurObject.setOrientation(orientation);
+        }
+        if (s.equals("grass")) {
             bulbasaurObject.setVisible(true);
             bulbasaurObject.setPosition(position);
             bulbasaurObject.setOrientation(orientation);
@@ -93,8 +96,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
     private void hideAllModels() {
         if (wmiTextObject != null) wmiTextObject.setVisible(false);
-        if (plane != null) plane.setVisible(false);
+        if (nyanCatPlane != null) nyanCatPlane.setVisible(false);
         if (bulbasaurObject != null) bulbasaurObject.setVisible(false);
+        if (companionCubeObject != null) companionCubeObject.setVisible(false);
     }
 
     @Override
@@ -111,11 +115,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
-        plane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
-        plane.setScale(2.6);
-        plane.setMaterial(nyanCatMaterial);
+        nyanCatPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+        nyanCatPlane.setScale(2.6);
+        nyanCatPlane.setMaterial(nyanCatMaterial);
 
-        getCurrentScene().addChild(plane);
+        getCurrentScene().addChild(nyanCatPlane);
         getCurrentScene().addLight(light);
 
         try {
@@ -134,7 +138,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             bulbaParser.parse();
 
             bulbasaurObject = bulbaParser.getParsedObject();
-            bulbasaurObject.setScale(7);
+            bulbasaurObject.setScale(12);
 
             Material bulbaMaterial = new Material();
             bulbaMaterial.setColorInfluence(0);
@@ -145,6 +149,21 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
             getCurrentScene().addChild(bulbasaurObject);
             bulbasaurObject.setVisible(false);
+
+            // Load the Companion cube:
+            final LoaderOBJ cubeParser = new LoaderOBJ(this, R.raw.companioncube_obj);
+            cubeParser.parse();
+
+            companionCubeObject = cubeParser.getParsedObject();
+            companionCubeObject.setScale(5);
+
+            Material cubeMaterial = new Material();
+            cubeMaterial.setColorInfluence(0);
+            cubeMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
+            cubeMaterial.addTexture(new Texture("companionCubeTexture", R.drawable.metal_box_skin001));
+
+            getCurrentScene().addChild(companionCubeObject);
+            companionCubeObject.setVisible(false);
 
         } catch (ParsingException | ATexture.TextureException e) {
             e.printStackTrace();
