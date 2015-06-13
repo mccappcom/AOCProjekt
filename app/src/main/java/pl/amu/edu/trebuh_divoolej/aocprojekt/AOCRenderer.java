@@ -1,7 +1,6 @@
 package pl.amu.edu.trebuh_divoolej.aocprojekt;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.MotionEvent;
 
 import org.rajawali3d.Object3D;
@@ -10,7 +9,7 @@ import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.textures.ATexture;
-import org.rajawali3d.materials.textures.Texture;
+import org.rajawali3d.materials.textures.AnimatedGIFTexture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
@@ -29,11 +28,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private Object3D wmiTextObject;
     private Object3D wmiLogoObject;
     private Plane plane;
+    private AnimatedGIFTexture nyanCatTexture;
 
     public AOCRenderer(Context context) {
         super(context);
         activity = (AOCActivity)context;
-        setFrameRate(60);
     }
 
     @Override
@@ -50,6 +49,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             plane.setVisible(true);
             plane.setPosition(position);
             plane.setOrientation(orientation);
+            try {
+                nyanCatTexture.update();
+            } catch (ATexture.TextureException e) {
+                e.printStackTrace();
+            }
         } else if (id == 2) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
@@ -97,8 +101,10 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         light.setPower(1);
 
         Material material = new Material();
+        nyanCatTexture = new AnimatedGIFTexture("textura", R.drawable.textura);
         try {
-            material.addTexture(new Texture("textura", R.drawable.textura).);
+            material.addTexture(nyanCatTexture);
+            material.setColorInfluence(0);
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
