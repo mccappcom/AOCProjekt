@@ -28,6 +28,8 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private Object3D bulbasaurObject;
     private Object3D companionCubeObject;
     private Plane nyanCatPlane;
+    private Plane pythonPlane;
+    private Plane rubyPlane;
     private AnimatedGIFTexture nyanCatTexture;
 
     public AOCRenderer(Context context) {
@@ -42,9 +44,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         // (w initApplicationAr() )
 
         if (id == 0) {
-            wmiTextObject.setVisible(true);
-            wmiTextObject.setPosition(position);
-            wmiTextObject.setOrientation(orientation);
+            rubyPlane.setVisible(true);
+            rubyPlane.setPosition(position);
+            rubyPlane.setOrientation(orientation);
         } else if (id == 1) {
             nyanCatPlane.setVisible(true);
             nyanCatPlane.setPosition(position);
@@ -55,9 +57,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
                 e.printStackTrace();
             }
         } else if (id == 2) {
-            bulbasaurObject.setVisible(true);
-            bulbasaurObject.setPosition(position);
-            bulbasaurObject.setOrientation(orientation);
+            pythonPlane.setVisible(true);
+            pythonPlane.setPosition(position);
+            pythonPlane.setOrientation(orientation);
         } else if (id == 3) {
             companionCubeObject.setVisible(true);
             companionCubeObject.setPosition(position);
@@ -72,9 +74,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         // Bazy tworzy się na stronie https://developer.vuforia.com/target-manager
 
         if (s.equals("kampus")) {
-            bulbasaurObject.setVisible(true);
-            bulbasaurObject.setPosition(position);
-            bulbasaurObject.setOrientation(orientation);
+            wmiTextObject.setVisible(true);
+            wmiTextObject.setPosition(position);
+            wmiTextObject.setOrientation(orientation);
         }
         if (s.equals("grass")) {
             bulbasaurObject.setVisible(true);
@@ -99,6 +101,8 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         if (nyanCatPlane != null) nyanCatPlane.setVisible(false);
         if (bulbasaurObject != null) bulbasaurObject.setVisible(false);
         if (companionCubeObject != null) companionCubeObject.setVisible(false);
+        if (pythonPlane != null) pythonPlane.setVisible(false);
+        if (rubyPlane != null) rubyPlane.setVisible(false);
     }
 
     @Override
@@ -115,11 +119,37 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
+
         nyanCatPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
         nyanCatPlane.setScale(2.6);
         nyanCatPlane.setMaterial(nyanCatMaterial);
-
         getCurrentScene().addChild(nyanCatPlane);
+
+        Material pythonMaterial = new Material();
+        try {
+            pythonMaterial.addTexture(new Texture("python", R.drawable.python));
+        } catch (ATexture.TextureException e) {
+            e.printStackTrace();
+        }
+
+        pythonPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+        pythonPlane.setScale(2.6);
+        pythonPlane.setMaterial(pythonMaterial);
+        getCurrentScene().addChild(pythonPlane);
+
+        Material rubyMaterial = new Material();
+        try {
+            rubyMaterial.addTexture(new Texture("ruby", R.drawable.ruby));
+        } catch (ATexture.TextureException e) {
+            e.printStackTrace();
+        }
+
+        rubyPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+        rubyPlane.setScale(2.6);
+        rubyPlane.setMaterial(pythonMaterial);
+        getCurrentScene().addChild(rubyPlane);
+
+
         getCurrentScene().addLight(light);
 
         try {
