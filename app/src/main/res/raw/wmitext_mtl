@@ -4,9 +4,8 @@
 newmtl Material.003
 Ns 23.529412
 Ka 0.000000 0.000000 0.000000
-Kd 0.547483 0.000000 0.003302
-Ks 1.000000 1.000000 1.000000
+Kd 0.139871 0.518354 0.533600
+Ks 0.604255 0.604255 0.604255
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd /home/hubert/AOCProjekt/app/src/main/res/drawable-nodpi/wmi.png

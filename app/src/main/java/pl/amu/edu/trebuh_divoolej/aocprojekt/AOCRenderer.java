@@ -1,8 +1,6 @@
 package pl.amu.edu.trebuh_divoolej.aocprojekt;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.MotionEvent;
 
 import org.rajawali3d.Object3D;
@@ -11,8 +9,6 @@ import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.methods.DiffuseMethod;
-import org.rajawali3d.materials.textures.ATexture;
-import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
@@ -109,20 +105,20 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             wmiTextObject.setVisible(false);
 
             Material wmiTextMaterial = new Material();
-            wmiTextMaterial.addTexture(new Texture("wmi", R.drawable.wmi));
-            wmiTextObject.setMaterial(wmiTextMaterial);
+//            wmiTextMaterial.addTexture(new Texture("wmi", R.drawable.wmi));
+//            wmiTextObject.setMaterial(wmiTextMaterial);
 
             // Load the WMI logo texture.
-            final LoaderOBJ wmiLogoParser = new LoaderOBJ(this, R.raw.wmi_tekstura_obj);
-            wmiLogoParser.parse();
-
-            wmiLogoObject = wmiLogoParser.getParsedObject();
-            wmiLogoObject.setScale(50);
-
-            Material wmiLogoMaterial = new Material();
+//            final LoaderOBJ wmiLogoParser = new LoaderOBJ(this, R.raw.wmi_tekstura_obj);
+//            wmiLogoParser.parse();
+//
+//            wmiLogoObject = wmiLogoParser.getParsedObject();
+//            wmiLogoObject.setScale(50);
+//
+//            Material wmiLogoMaterial = new Material();
 
             Plane plane = new Plane(50, 50, 1, 1);
-            Bitmap bg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wmi);
+//            Bitmap bg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wmi);
             Material material = new Material();
 //            ATexture texture = new ATexture(ATexture.TextureType.DIFFUSE, )
 //            material.addTexture(mTextureManager.addTexture(bg));
@@ -131,16 +127,16 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             plane.setMaterial(material);
 
 
-            wmiLogoMaterial.addTexture(new Texture("wmiTexture", R.drawable.wmi));
-            wmiLogoMaterial.enableLighting(true);
-            wmiLogoMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
-            wmiLogoMaterial.setColorInfluence(0);
+//            wmiLogoMaterial.addTexture(new Texture("wmiTexture", R.drawable.wmi));
+//            wmiLogoMaterial.enableLighting(true);
+//            wmiLogoMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
+//            wmiLogoMaterial.setColorInfluence(0);
+//
+//            wmiLogoObject.setMaterial(wmiLogoMaterial);
+//            getCurrentScene().addChild(wmiLogoObject);
+//            wmiLogoObject.setVisible(false);
 
-            wmiLogoObject.setMaterial(wmiLogoMaterial);
-            getCurrentScene().addChild(wmiLogoObject);
-            wmiLogoObject.setVisible(false);
-
-        } catch (ParsingException | ATexture.TextureException e) {
+        } catch (ParsingException e) {
             e.printStackTrace();
         }
 
