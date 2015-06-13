@@ -9,7 +9,7 @@ import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.textures.ATexture;
-import org.rajawali3d.materials.textures.Texture;
+import org.rajawali3d.materials.textures.AnimatedGIFTexture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
@@ -28,11 +28,12 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private Object3D wmiTextObject;
     private Object3D wmiLogoObject;
     private Plane plane;
+    private AnimatedGIFTexture nyanCatTexture;
 
     public AOCRenderer(Context context) {
         super(context);
         activity = (AOCActivity)context;
-        setFrameRate(60);
+//        setFrameRate(60);
     }
 
     @Override
@@ -49,6 +50,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             plane.setVisible(true);
             plane.setPosition(position);
             plane.setOrientation(orientation);
+            try {
+                nyanCatTexture.update();
+            } catch (ATexture.TextureException e) {
+                e.printStackTrace();
+            }
         } else if (id == 2) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
@@ -96,13 +102,15 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         light.setPower(1);
 
         Material material = new Material();
+        nyanCatTexture = new AnimatedGIFTexture("textura", R.drawable.textura);
         try {
-            material.addTexture(new Texture("textura", R.drawable.textura));
+            material.addTexture(nyanCatTexture);
+            material.setColorInfluence(0);
         } catch (ATexture.TextureException e) {
             e.printStackTrace();
         }
-        plane = new Plane(24, 24, 1, 1);
-        plane.setScale(10);
+        plane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+        plane.setScale(2.6);
         plane.setMaterial(material);
 
         getCurrentScene().addChild(plane);
@@ -118,38 +126,6 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
             getCurrentScene().addChild(wmiTextObject);
             wmiTextObject.setVisible(false);
-
-//            Material wmiTextMaterial = new Material();
-//            wmiTextMaterial.addTexture(new Texture("wmi", R.drawable.wmi));
-//            wmiTextObject.setMaterial(wmiTextMaterial);
-
-            // Load the WMI logo texture.
-//            final LoaderOBJ wmiLogoParser = new LoaderOBJ(this, R.raw.wmi_tekstura_obj);
-//            wmiLogoParser.parse();
-//
-//            wmiLogoObject = wmiLogoParser.getParsedObject();
-//            wmiLogoObject.setScale(50);
-//
-//            Material wmiLogoMaterial = new Material();
-
-//            Plane plane = new Plane(50, 50, 1, 1);
-//            Bitmap bg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wmi);
-//            Material material = new Material();
-//            ATexture texture = new ATexture(ATexture.TextureType.DIFFUSE, )
-//            material.addTexture(mTextureManager.addTexture(bg));
-//            material.setDiffuseMethod(new DiffuseMethod.Lambert());
-
-//            plane.setMaterial(material);
-
-
-//            wmiLogoMaterial.addTexture(new Texture("wmiTexture", R.drawable.wmi));
-//            wmiLogoMaterial.enableLighting(true);
-//            wmiLogoMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
-//            wmiLogoMaterial.setColorInfluence(0);
-//
-//            wmiLogoObject.setMaterial(wmiLogoMaterial);
-//            getCurrentScene().addChild(wmiLogoObject);
-//            wmiLogoObject.setVisible(false);
 
         } catch (ParsingException e) {
             e.printStackTrace();
