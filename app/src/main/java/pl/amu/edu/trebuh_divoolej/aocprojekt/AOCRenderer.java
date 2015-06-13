@@ -9,9 +9,12 @@ import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.textures.ATexture;
+import org.rajawali3d.materials.textures.Texture;
 import org.rajawali3d.math.Quaternion;
 import org.rajawali3d.math.vector.Vector3;
 import org.rajawali3d.primitives.Plane;
+import org.rajawali3d.primitives.Sphere;
 import org.rajawali3d.vuforia.RajawaliVuforiaRenderer;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -26,10 +29,12 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private DirectionalLight light;
     private Object3D wmiTextObject;
     private Object3D wmiLogoObject;
+    private Sphere mSphere;
 
     public AOCRenderer(Context context) {
         super(context);
         activity = (AOCActivity)context;
+        setFrameRate(60);
     }
 
     @Override
@@ -43,9 +48,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             wmiTextObject.setPosition(position);
             wmiTextObject.setOrientation(orientation);
         } else if (id == 1) {
-            wmiTextObject.setVisible(true);
-            wmiTextObject.setPosition(position);
-            wmiTextObject.setOrientation(orientation);
+            mSphere.setVisible(true);
+            mSphere.setPosition(position);
+            mSphere.setOrientation(orientation);
         } else if (id == 2) {
             wmiTextObject.setVisible(true);
             wmiTextObject.setPosition(position);
@@ -83,6 +88,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
     private void hideAllModels() {
         if (wmiTextObject != null) wmiTextObject.setVisible(false);
+        if (mSphere != null) mSphere.setVisible(false);
     }
 
     @Override
@@ -91,6 +97,17 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         light.setColor(1.0f, 1.0f, 0.8f);
         light.setPower(1);
 
+        Material material = new Material();
+        try {
+            material.addTexture(new Texture("textura", R.drawable.textura));
+        } catch (ATexture.TextureException e) {
+            e.printStackTrace();
+        }
+        mSphere = new Sphere(1, 24, 24);
+        mSphere.setScale(10);
+        mSphere.setMaterial(material);
+
+        getCurrentScene().addChild(mSphere);
         getCurrentScene().addLight(light);
 
         try {
@@ -103,38 +120,6 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
             getCurrentScene().addChild(wmiTextObject);
             wmiTextObject.setVisible(false);
-
-            Material wmiTextMaterial = new Material();
-//            wmiTextMaterial.addTexture(new Texture("wmi", R.drawable.wmi));
-//            wmiTextObject.setMaterial(wmiTextMaterial);
-
-            // Load the WMI logo texture.
-//            final LoaderOBJ wmiLogoParser = new LoaderOBJ(this, R.raw.wmi_tekstura_obj);
-//            wmiLogoParser.parse();
-//
-//            wmiLogoObject = wmiLogoParser.getParsedObject();
-//            wmiLogoObject.setScale(50);
-//
-//            Material wmiLogoMaterial = new Material();
-
-            Plane plane = new Plane(50, 50, 1, 1);
-//            Bitmap bg = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.wmi);
-            Material material = new Material();
-//            ATexture texture = new ATexture(ATexture.TextureType.DIFFUSE, )
-//            material.addTexture(mTextureManager.addTexture(bg));
-            material.setDiffuseMethod(new DiffuseMethod.Lambert());
-
-            plane.setMaterial(material);
-
-
-//            wmiLogoMaterial.addTexture(new Texture("wmiTexture", R.drawable.wmi));
-//            wmiLogoMaterial.enableLighting(true);
-//            wmiLogoMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
-//            wmiLogoMaterial.setColorInfluence(0);
-//
-//            wmiLogoObject.setMaterial(wmiLogoMaterial);
-//            getCurrentScene().addChild(wmiLogoObject);
-//            wmiLogoObject.setVisible(false);
 
         } catch (ParsingException e) {
             e.printStackTrace();
