@@ -1,8 +1,14 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.0"
+
+    sourceSets.main {
+        jniLibs.srcDir '/src/main/libs'
+        jni.srcDirs = []
+    }
 
     defaultConfig {
         applicationId "pl.amu.edu.trebuh_divoolej.aocprojekt"
@@ -21,6 +27,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'org.rajawali3d.vuforia:rajawalivuforia:1.0.0-SNAPSHOT'
 }
