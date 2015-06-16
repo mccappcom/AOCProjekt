@@ -9,6 +9,7 @@ import org.rajawali3d.loader.LoaderOBJ;
 import org.rajawali3d.loader.ParsingException;
 import org.rajawali3d.materials.Material;
 import org.rajawali3d.materials.methods.DiffuseMethod;
+import org.rajawali3d.materials.methods.IDiffuseMethod;
 import org.rajawali3d.materials.textures.ATexture;
 import org.rajawali3d.materials.textures.AnimatedGIFTexture;
 import org.rajawali3d.materials.textures.Texture;
@@ -27,9 +28,11 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
     private Object3D wmiTextObject;
     private Object3D bulbasaurObject;
     private Object3D companionCubeObject;
+    private Object3D landscapeObject;
+    private Object3D macObject;
     private Plane nyanCatPlane;
-    private Plane pythonPlane;
-    private Plane rubyPlane;
+//    private Plane pythonPlane;
+//    private Plane rubyPlane;
     private AnimatedGIFTexture nyanCatTexture;
 
     public AOCRenderer(Context context) {
@@ -44,9 +47,9 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         // (w initApplicationAr() )
 
         if (id == 0) {
-            rubyPlane.setVisible(true);
-            rubyPlane.setPosition(position);
-            rubyPlane.setOrientation(orientation);
+            landscapeObject.setVisible(true);
+            landscapeObject.setPosition(position);
+            landscapeObject.setOrientation(orientation);
         } else if (id == 1) {
             nyanCatPlane.setVisible(true);
             nyanCatPlane.setPosition(position);
@@ -57,13 +60,17 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
                 e.printStackTrace();
             }
         } else if (id == 2) {
-            pythonPlane.setVisible(true);
-            pythonPlane.setPosition(position);
-            pythonPlane.setOrientation(orientation);
+            wmiTextObject.setVisible(true);
+            wmiTextObject.setPosition(position);
+            wmiTextObject.setOrientation(orientation);
         } else if (id == 3) {
             companionCubeObject.setVisible(true);
             companionCubeObject.setPosition(position);
             companionCubeObject.setOrientation(orientation);
+        } else if (id == 4) {
+            macObject.setVisible(true);
+            macObject.setPosition(position);
+            macObject.setOrientation(orientation);
         }
 
     }
@@ -101,8 +108,10 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         if (nyanCatPlane != null) nyanCatPlane.setVisible(false);
         if (bulbasaurObject != null) bulbasaurObject.setVisible(false);
         if (companionCubeObject != null) companionCubeObject.setVisible(false);
-        if (pythonPlane != null) pythonPlane.setVisible(false);
-        if (rubyPlane != null) rubyPlane.setVisible(false);
+        if (landscapeObject != null) landscapeObject.setVisible(false);
+        if (macObject != null) macObject.setVisible(false);
+//        if (pythonPlane != null) pythonPlane.setVisible(false);
+//        if (rubyPlane != null) rubyPlane.setVisible(false);
     }
 
     @Override
@@ -110,6 +119,8 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         light = new DirectionalLight(.1f, 0, -1.0f);
         light.setColor(1.0f, 1.0f, 1.0f);
         light.setPower(1);
+
+        // Load the Nyan Cat stuff:
 
         Material nyanCatMaterial = new Material();
         nyanCatTexture = new AnimatedGIFTexture("textura", R.drawable.nyan);
@@ -125,34 +136,38 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
         nyanCatPlane.setMaterial(nyanCatMaterial);
         getCurrentScene().addChild(nyanCatPlane);
 
-        Material pythonMaterial = new Material();
-        try {
-            pythonMaterial.addTexture(new Texture("python", R.drawable.python));
-        } catch (ATexture.TextureException e) {
-            e.printStackTrace();
-        }
-
-        pythonPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
-        pythonPlane.setScale(2.6);
-        pythonPlane.setMaterial(pythonMaterial);
-        getCurrentScene().addChild(pythonPlane);
-
-        Material rubyMaterial = new Material();
-        try {
-            rubyMaterial.addTexture(new Texture("ruby", R.drawable.ruby));
-        } catch (ATexture.TextureException e) {
-            e.printStackTrace();
-        }
-
-        rubyPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
-        rubyPlane.setScale(2.6);
-        rubyPlane.setMaterial(pythonMaterial);
-        getCurrentScene().addChild(rubyPlane);
+//        Material pythonMaterial = new Material();
+//        try {
+//            pythonMaterial.addTexture(new Texture("python", R.drawable.python));
+//        } catch (ATexture.TextureException e) {
+//            e.printStackTrace();
+//        }
+//
+//        pythonPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+//        pythonPlane.setScale(2.6);
+//        pythonPlane.setMaterial(pythonMaterial);
+//        getCurrentScene().addChild(pythonPlane);
+//
+//        Material rubyMaterial = new Material();
+//        try {
+//            rubyMaterial.addTexture(new Texture("ruby", R.drawable.ruby));
+//        } catch (ATexture.TextureException e) {
+//            e.printStackTrace();
+//        }
+//
+//        rubyPlane = new Plane(24, 24, 1, 1, Vector3.Axis.Y);
+//        rubyPlane.setScale(2.6);
+//        rubyPlane.setMaterial(rubyMaterial);
+//        getCurrentScene().addChild(rubyPlane);
 
 
         getCurrentScene().addLight(light);
 
+        // Load all 3D objects:
+
         try {
+            IDiffuseMethod diffuseMethod = new DiffuseMethod.Lambert();
+
             // Load the WMI text thing.
             final LoaderOBJ wmiTextParser = new LoaderOBJ(this, R.raw.wmitext_obj);
             wmiTextParser.parse();
@@ -172,7 +187,7 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
 
             Material bulbaMaterial = new Material();
             bulbaMaterial.setColorInfluence(0);
-            bulbaMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
+            bulbaMaterial.setDiffuseMethod(diffuseMethod);
             bulbaMaterial.addTexture(new Texture("bulbaTexture", R.drawable.dif_bulbasaur_01));
 
             bulbasaurObject.setMaterial(bulbaMaterial);
@@ -185,17 +200,49 @@ public class AOCRenderer extends RajawaliVuforiaRenderer {
             cubeParser.parse();
 
             companionCubeObject = cubeParser.getParsedObject();
-            companionCubeObject.setScale(30);
+            companionCubeObject.setScale(36);
 
             Material cubeMaterial = new Material();
             cubeMaterial.setColorInfluence(0);
-            cubeMaterial.setDiffuseMethod(new DiffuseMethod.Lambert());
+            cubeMaterial.setDiffuseMethod(diffuseMethod);
             cubeMaterial.addTexture(new Texture("companionCubeTexture", R.drawable.metal_box_skin001));
 
             companionCubeObject.setMaterial(cubeMaterial);
 
             getCurrentScene().addChild(companionCubeObject);
             companionCubeObject.setVisible(false);
+
+            // Load the low poly landscape:
+            final LoaderOBJ landscapeParser = new LoaderOBJ(this, R.raw.landscape_obj);
+            landscapeParser.parse();
+
+            landscapeObject = landscapeParser.getParsedObject();
+            landscapeObject.setScale(15.5);
+
+            Material landscapeMaterial = new Material();
+            landscapeMaterial.setColorInfluence(0);
+            landscapeMaterial.setDiffuseMethod(diffuseMethod);
+            landscapeObject.setMaterial(landscapeMaterial);
+
+            getCurrentScene().addChild(landscapeObject);
+            landscapeObject.setVisible(false);
+
+            // Load the Mac model:
+            final LoaderOBJ macParser = new LoaderOBJ(this, R.raw.lampa_obj);
+            macParser.parse();
+
+            macObject = macParser.getParsedObject();
+            macObject.setScale(5);
+
+            Material macMaterial = new Material();
+            macMaterial.setColorInfluence(0);
+            macMaterial.setDiffuseMethod(diffuseMethod);
+//            macMaterial.addTexture(new Texture("MacTexture", R.drawable.imac2012));
+            macObject.setMaterial(macMaterial);
+
+            getCurrentScene().addChild(macObject);
+            macObject.setVisible(false);
+
 
         } catch (ParsingException | ATexture.TextureException e) {
             e.printStackTrace();

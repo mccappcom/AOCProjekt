@@ -18,13 +18,10 @@ public class AOCActivity extends RajawaliVuforiaActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aoc);
-//        useCloudRecognition(true);
 
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setGravity(Gravity.CENTER);
-
-        // logo stuff
 
         addContentView(linearLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
@@ -54,6 +51,7 @@ public class AOCActivity extends RajawaliVuforiaActivity {
         createFrameMarker(430, "MarkerUAM_430", 50, 50);
         createFrameMarker(440, "MarkerUAM_440", 50, 50);
         createFrameMarker(450, "MarkerUAM_450", 50, 50);
+        createFrameMarker(0, "MarkerUAM_000", 50, 50);
 
         createImageMarker("aocImages.xml");
     }
