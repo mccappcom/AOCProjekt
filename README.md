@@ -1,5 +1,5 @@
 # AOCProjekt
 
-An augmented reality implementation using Vuforia & RajawaliVuforia.
+An augmented reality application using Vuforia & RajawaliVuforia.
 
 ![screenshot](http://i.imgur.com/v8ryr8j.jpg)
